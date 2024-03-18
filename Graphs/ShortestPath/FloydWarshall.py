@@ -7,7 +7,7 @@
 #           i--> j ===> i-->k + k-->j
 #use Adjacency MATRIX for this
 
-#Overall TC: O(VE)
+#Overall TC: O(V^3)
 
 def floydWarshall():
     for k in range(V):
