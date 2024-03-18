@@ -21,7 +21,8 @@ adj = defaultdict(list)
 dist = [sys.maxsize for _ in range(v)]
 for src,dest in edges:
     adj[src].append(dest)
-    
+    adj[dest].append(src)
+
 #Find Shortest path from Source
 bfs(0) #SourceNode is 0
 
