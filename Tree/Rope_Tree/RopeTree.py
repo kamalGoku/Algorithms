@@ -7,7 +7,7 @@ class Node:
 
 class RopeTree:
     def __init__(self, word):
-        self.maxLen = 5
+        self.maxLen = 5 #Based on the requirement this can be modified or added as parameter
         self.root = self.buildTree(word, 0, len(word)-1)
     
     def buildTree(self, word, start, end):
@@ -36,7 +36,7 @@ class RopeTree:
         self.__printTree(self.root)
     
     def __charAt(self, root, idx):
-        if not root.left and not root.right:
+        if not root.left and not root.right:#LeafNode
             return root.word[idx]
         if idx>root.len:
             print("ERROR - out of bound")
@@ -48,7 +48,21 @@ class RopeTree:
         
     def charAt(self, idx):
         return self.__charAt(self.root, idx)
-    
+
+    def __substr(self, root, l, r):
+        if not root.left and not root.right:#Leaf Node
+            return root.word[l:r+1]
+        
+        res = ''
+        if root.left.len>l:
+            res += self.__substr(root.left, l, min(root.left.len, r))
+        if root.left.len<=r:
+            res += self.__substr(root.right, max(0, l-root.left.len), r-root.left.len)
+        return res
+        
+        
+    def substr(self, l, r):
+        return self.__substr(self.root, l, r)
 
 rt = RopeTree("This_is_a_very_complex_sentence")
 rt.printTree()
@@ -62,3 +76,10 @@ idx = 19
 print("Char at", idx, ":", rt.charAt(idx))
 idx = 56
 print("Char at", idx, ":", rt.charAt(idx))
+print("\n")
+l = 1
+r = 5
+print("Substring from", l , "to", r, ":", rt.substr(l,r))
+l = 10
+r = 21
+print("Substring from", l , "to", r, ":", rt.substr(l,r))
