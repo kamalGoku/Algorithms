@@ -48,6 +48,37 @@ class IntervalTree:
 
     def isOverlap(self, interval):
         return self.__isOverlap(self.root, interval)
+    
+           
+    def groupIntervals(self):
+        groups = []
+        currGroup = []
+        st = []
+        curr = self.root
+        prevEnd = -sys.maxsize
+        while True:
+            if curr:
+                st.append(curr)
+                curr=curr.left
+            elif st:
+                curr = st.pop()
+                #interval logic
+                if prevEnd>curr.low: #overlap
+                    currGroup.append([curr.low, curr.high])
+                    prevEnd = curr.high
+                else:
+                    if currGroup:
+                        groups.append(currGroup)
+                    prevEnd = curr.high
+                    currGroup = [[curr.low, curr.high]]
+                    
+                curr = curr.right
+            else:
+                break
+        if currGroup:
+            groups.append(currGroup)
+        return groups
+                
         
 it = IntervalTree()
 it.insert([15, 20])
@@ -61,3 +92,5 @@ it.printTree()
 
 print("Is [6,10] have overlap? : ", it.isOverlap([6,10]))
 print("Is [41,43] have overlap? : ", it.isOverlap([41,43]))
+
+print(it.groupIntervals())
